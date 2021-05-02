@@ -1,0 +1,27 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo k8s, Terraform Azure!
+  displayName: 'Run a one-line script'
+- task: TerraformCLI@0
+  inputs:
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/azure-terraform/kubernetes'
+    backendType: 'azurerm'
+    backendServiceArm: 'servicio-azure'
+    ensureBackend: true
+    backendAzureRmResourceGroupName: 'terraform-backend-lppp'
+    backendAzureRmResourceGroupLocation: 'westeurope'
+    backendAzureRmStorageAccountName: 'storageacctaforolppp'
+    backendAzureRmContainerName: 'storageacctaforolpppcontainer'
+    backendAzureRmKey: 'kubernetes-dev.tfstate'
+    allowTelemetryCollection: true
